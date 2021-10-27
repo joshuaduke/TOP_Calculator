@@ -1,0 +1,1 @@
+The odin project Calculator assignment from the foundations series.
