@@ -22,7 +22,7 @@ modulo button returns the remainder
 let myLabel = document.querySelector('.inputContainer label');
 let firstNum = '';
 let secondNum = '';
-let result = '';
+let result = 0;
 let currentOperator = '';
 
 let currentEquation = {
@@ -38,21 +38,32 @@ numBtns.forEach(btn =>{
        if(currentOperator === ''){
            console.log('selecting first number')
            console.log(e.target.innerText);
-           firstNum += e.target.innerText;
+        //    firstNum += e.target.innerText;
+           firstNum += displayLabel(e);
+       } else if(result !== 0) {
+        firstNum = result;
+        secondNum += displayLabel(e);
        } else {
         console.log('selecting second number')
         console.log(e.target.innerText);
-           secondNum += e.target.innerText;
+        //    secondNum += e.target.innerText;
+           secondNum += displayLabel(e);
        }
     // console.log(e.target.innerText)
     // displayLabel(e)
    });
 });
 
+function isDisplayEmpty(){
+    if(myLabel.innerText !== ''){
+        myLabel.innerText = '';
+    }
+}
 
 function displayLabel(e){
+    myLabel.innerText = '';
     myLabel.innerText += e.target.innerText;
-    
+    return myLabel.innerText;
 }
 
 
@@ -63,19 +74,18 @@ clearLabel.addEventListener('click', clear)
 function clear(){
     myLabel.innerText = '';
     firstNum = '';
-    secondNum = ''
-    currentOperator = ''
+    secondNum = '';
+    result = 0;
+    currentOperator = '';
 }
 
 // turn current number negative
 const toNegative = document.querySelector('.negativeNum');
-
 toNegative.addEventListener('click', ()=>{
     alert('now negative')
 })
 
 const modulo = document.querySelector('.mod');
-
 modulo.addEventListener('click', ()=>{
     alert('modulo')
 })
@@ -83,12 +93,53 @@ modulo.addEventListener('click', ()=>{
 //retrieve all arithmetic operations
 const myOperators = document.querySelectorAll('.myOperator');
 
+// myOperators.forEach(operator => {
+//     operator.addEventListener('click', (e) => {
+//         if(result !== 0){
+//             console.log('result present')
+//             firstNum = result;
+//             secondNum = '';
+//             currentOperator = e.target.innerText;
+//             myLabel.innerText = '';
+//             console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}`);
+//         } else if(firstNum && secondNum){
+//             console.log('Two numbers present')
+//             console.log(`result ${result}`)
+//             calculate();
+//             currentOperator = e.target.innerText;
+//             myLabel.innerText = '';
+//             console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}, second Number: ${secondNum}`);
+
+//         } else {
+//             console.log('first number')
+//             currentOperator = e.target.innerText;
+//             myLabel.innerText = '';
+//             console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}`);
+//         }
+//     })
+// })
+
 myOperators.forEach(operator => {
     operator.addEventListener('click', (e) => {
-        // firstNum = +myLabel.innerText;
-        currentOperator = e.target.innerText;
-        myLabel.innerText = '';
-        console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}`);
+
+        if(firstNum && secondNum){
+            console.log('Two numbers present')
+            console.log(`result ${result}`)
+            
+            calculate();
+            
+            firstNum = result;
+            secondNum = '';
+            currentOperator = e.target.innerText;
+            // myLabel.innerText = '';
+            console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}, second Number: ${secondNum}`);
+
+        } else {
+            console.log('first number')
+            currentOperator = e.target.innerText;
+            myLabel.innerText = '';
+            console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}`);
+        }
     })
 })
 
@@ -101,25 +152,30 @@ calculateBtn.addEventListener('click', calculate)
 function calculate(){
     console.log(`First Number ${firstNum}, Operator ${currentOperator}, second number ${secondNum}`)
 
-    if(firstNum == '' || currentOperator == '' || secondNum == ''){
-        myLabel.innerText = 'error'
-    } else {
-        console.log('HERE')
-        switch(currentOperator){
-            case '+':
-                console.log(add(+firstNum, +secondNum))
-            break;
-            case '-':
-                console.log(substract(+firstNum, +secondNum))
-            break;
-            case 'x':
-            case '*':
-                console.log(multiply(+firstNum, +secondNum))   
-            break; 
-            case '/':
-                console.log(divide(+firstNum, +secondNum))    
-            break;
-        }
+    switch(currentOperator){
+        case '+':
+            console.log(add(+firstNum, +secondNum))
+            myLabel.innerText = add(+firstNum, +secondNum);
+            result = add(+firstNum, +secondNum);
+            console.log(`Result : ${result}`)
+            
+        break;
+        case '-':
+            console.log(substract(+firstNum, +secondNum))
+            myLabel.innerText = substract(+firstNum, +secondNum);
+            result = substract(+firstNum, +secondNum);
+        break;
+        case 'x':
+        case '*':
+            console.log(multiply(+firstNum, +secondNum))  
+            myLabel.innerText = multiply(+firstNum, +secondNum); 
+            result = multiply(+firstNum, +secondNum);
+        break; 
+        case '/':
+            console.log(divide(+firstNum, +secondNum))    
+            myLabel.innerText = divide(+firstNum, +secondNum);
+            result = divide(+firstNum, +secondNum);
+        break;
     }
 
 
@@ -129,7 +185,6 @@ function calculate(){
 //functions for each arithmetic operation
 function add(num1, num2){
     let result = num1 + num2;
-    console.log(result)
     return result;
 }
 
