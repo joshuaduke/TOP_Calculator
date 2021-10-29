@@ -1,85 +1,152 @@
-let inputlabel = document.querySelector('.inputContainer label');
-let clearBtn = document.querySelector('.clear');
-let btnOptions = document.querySelectorAll('.myNumBtn');
+/* 
+functions for each button 
 
-clearBtn.addEventListener('click', clearLabel)
+0 - 9 will display in the label
 
-function add(num1, num2){
-    console.log(num1 + num2)
-    return num1 + num2;
+select a first number, store this number in a variable
+select an arithmetic operator
+select a second number
+if user selects arithmetic operator again 
+calculate both numbers and use result as the first number
+
+if user selects = , calulate both numbers and display result
+result should be stored in a global variable
+
+clear button should clear everything
+
+toNegative button turns number negative
+
+modulo button returns the remainder
+*/
+
+let myLabel = document.querySelector('.inputContainer label');
+let firstNum = '';
+let secondNum = '';
+let result = '';
+let currentOperator = '';
+
+let currentEquation = {
+    firstNumber: 0,
+    operator: '' 
 }
 
-function substract(num1, num2){
-    console.log(num1 - num2)
-    return num1 - num2;
-}
+//retrieve buttons from 0 - 9 
+const numBtns = document.querySelectorAll('.myNumBtn');
 
-function multiply(num1, num2){
-    console.log(num1 * num2)
-    return num1 * num2;
-}
-
-function divide(num1, num2){
-    console.log(num1 / num2)
-    return num1 / num2;
-}
-
-function operate(num1, num2, operator){
-    switch(operator){
-        case '+':
-            add(num1, num2);
-        break;
-        case '-':
-            substract(num1, num2);
-        break;
-        case '*':
-            multiply(num1, num2);    
-        break; 
-        case '/':
-            divide(num1, num2);    
-        break;
-    }
-}
-
-function clear(){
-
-}
-
-function selectOperator(){
-    let operators = document.querySelectorAll('.myOperator');
-
-}
-
-btnOptions.forEach(btn => {
-    btn.addEventListener('click', changeDisplay)
+numBtns.forEach(btn =>{
+   btn.addEventListener('click', (e)=>{
+       if(currentOperator === ''){
+           console.log('selecting first number')
+           console.log(e.target.innerText);
+           firstNum += e.target.innerText;
+       } else {
+        console.log('selecting second number')
+        console.log(e.target.innerText);
+           secondNum += e.target.innerText;
+       }
+    // console.log(e.target.innerText)
+    // displayLabel(e)
+   });
 });
 
-function changeDisplay(e){
-    // 
-    if(inputlabel.innerText == '0'){
-        inputlabel.innerText = '' 
-        console.log(e.target.innerText)
-        if(inputlabel.innerText.length <= 9){
-            inputlabel.innerText += e.target.innerText
-        }
-    } else {
-        console.log(e.target.innerText)
-        if(inputlabel.innerText.length <= 9){
-            inputlabel.innerText += e.target.innerText
-        }
-    }
+
+function displayLabel(e){
+    myLabel.innerText += e.target.innerText;
     
 }
 
 
 
-function clearLabel(){
-    inputlabel.innerText = 0;
+//clear label btn
+const clearLabel = document.querySelector('.clear');
+clearLabel.addEventListener('click', clear)
+function clear(){
+    myLabel.innerText = '';
+    firstNum = '';
+    secondNum = ''
+    currentOperator = ''
 }
 
-//user enters first number 
-// user selects an operator
-// first number is stored
-// user selects a second number
-//if user selects another operator, 
-//display result of the first operation 
+// turn current number negative
+const toNegative = document.querySelector('.negativeNum');
+
+toNegative.addEventListener('click', ()=>{
+    alert('now negative')
+})
+
+const modulo = document.querySelector('.mod');
+
+modulo.addEventListener('click', ()=>{
+    alert('modulo')
+})
+
+//retrieve all arithmetic operations
+const myOperators = document.querySelectorAll('.myOperator');
+
+myOperators.forEach(operator => {
+    operator.addEventListener('click', (e) => {
+        // firstNum = +myLabel.innerText;
+        currentOperator = e.target.innerText;
+        myLabel.innerText = '';
+        console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}`);
+    })
+})
+
+
+// calculate equation
+
+const calculateBtn = document.querySelector('.calculate');
+calculateBtn.addEventListener('click', calculate)
+
+function calculate(){
+    console.log(`First Number ${firstNum}, Operator ${currentOperator}, second number ${secondNum}`)
+
+    if(firstNum == '' || currentOperator == '' || secondNum == ''){
+        myLabel.innerText = 'error'
+    } else {
+        console.log('HERE')
+        switch(currentOperator){
+            case '+':
+                console.log(add(+firstNum, +secondNum))
+            break;
+            case '-':
+                console.log(substract(+firstNum, +secondNum))
+            break;
+            case 'x':
+            case '*':
+                console.log(multiply(+firstNum, +secondNum))   
+            break; 
+            case '/':
+                console.log(divide(+firstNum, +secondNum))    
+            break;
+        }
+    }
+
+
+}
+
+
+//functions for each arithmetic operation
+function add(num1, num2){
+    let result = num1 + num2;
+    console.log(result)
+    return result;
+}
+
+function substract(num1, num2){
+    let result = num1 - num2;
+    console.log(result)
+    return result;
+}
+
+function multiply(num1, num2){
+    let result = num1 * num2;
+    console.log(result)
+    return result;
+}
+
+function divide(num1, num2){
+    let result = num1 / num2;
+    console.log(result)
+    return result;
+}
