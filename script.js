@@ -25,11 +25,6 @@ let secondNum = '';
 let result = 0;
 let currentOperator = '';
 
-let currentEquation = {
-    firstNumber: 0,
-    operator: '' 
-}
-
 //retrieve buttons from 0 - 9 
 const numBtns = document.querySelectorAll('.myNumBtn');
 
@@ -38,35 +33,33 @@ numBtns.forEach(btn =>{
        if(currentOperator === ''){
            console.log('selecting first number')
            console.log(e.target.innerText);
+
         //    firstNum += e.target.innerText;
-           firstNum += displayLabel(e);
+           firstNum += e.target.innerText;
+           myLabel.innerText = firstNum;
+           console.log(firstNum);
+
        } else if(result !== 0) {
         firstNum = result;
-        secondNum += displayLabel(e);
+        // secondNum += displayLabel(e);
+        secondNum += e.target.innerText;
+        myLabel.innerText = secondNum;
        } else {
         console.log('selecting second number')
         console.log(e.target.innerText);
-        //    secondNum += e.target.innerText;
-           secondNum += displayLabel(e);
+        //    secondNum += displayLabel(e);
+        secondNum += e.target.innerText;
+        myLabel.innerText = secondNum;
        }
-    // console.log(e.target.innerText)
-    // displayLabel(e)
    });
 });
 
-function isDisplayEmpty(){
-    if(myLabel.innerText !== ''){
-        myLabel.innerText = '';
-    }
-}
 
 function displayLabel(e){
-    myLabel.innerText = '';
+    // myLabel.innerText = '';
     myLabel.innerText += e.target.innerText;
     return myLabel.innerText;
 }
-
-
 
 //clear label btn
 const clearLabel = document.querySelector('.clear');
@@ -82,42 +75,56 @@ function clear(){
 // turn current number negative
 const toNegative = document.querySelector('.negativeNum');
 toNegative.addEventListener('click', ()=>{
-    alert('now negative')
+    // alert('now negative')
+    let display = myLabel.innerText;
+    console.log(`result ${typeof result}`)
+    console.log(`result ${result}`)
+    console.log(`display ${display}`)
+    if(firstNum === display){
+        firstNum *= (-1);
+        myLabel.innerText = firstNum;
+        console.log(`firsnum ${typeof firstNum}`)
+        console.log(`firsnum ${firstNum}`)
+    } else if(secondNum === display){
+        secondNum *= (-1);
+        myLabel.innerText = secondNum;
+        console.log(`second ${typeof secondNum}`)
+        console.log(`second ${secondNum}`)
+    } else if (result.toString() === display){
+        result *= (-1);
+        myLabel.innerText = result;
+        console.log(`result ${typeof result}`)
+        console.log(`result ${result}`)
+    }
 })
 
-const modulo = document.querySelector('.mod');
-modulo.addEventListener('click', ()=>{
-    alert('modulo')
+const percentage = document.querySelector('.percentage');
+percentage.addEventListener('click', ()=>{
+    // myLabel.innerText = (+myLabel.innerText) / 100;
+    let display = myLabel.innerText;
+    console.log(`result ${typeof result}`)
+    console.log(`result ${result}`)
+    console.log(`display ${display}`)
+    if(firstNum === display){
+        firstNum /= 100;
+        myLabel.innerText = firstNum;
+        console.log(`firsnum ${typeof firstNum}`)
+        console.log(`firsnum ${firstNum}`)
+    } else if(secondNum === display){
+        secondNum /= 100;
+        myLabel.innerText = secondNum;
+        console.log(`second ${typeof secondNum}`)
+        console.log(`second ${secondNum}`)
+    } else if (result.toString() === display){
+        result /= 100;
+        myLabel.innerText = result;
+        console.log(`result ${typeof result}`)
+        console.log(`result ${result}`)
+    }
 })
 
 //retrieve all arithmetic operations
 const myOperators = document.querySelectorAll('.myOperator');
-
-// myOperators.forEach(operator => {
-//     operator.addEventListener('click', (e) => {
-//         if(result !== 0){
-//             console.log('result present')
-//             firstNum = result;
-//             secondNum = '';
-//             currentOperator = e.target.innerText;
-//             myLabel.innerText = '';
-//             console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}`);
-//         } else if(firstNum && secondNum){
-//             console.log('Two numbers present')
-//             console.log(`result ${result}`)
-//             calculate();
-//             currentOperator = e.target.innerText;
-//             myLabel.innerText = '';
-//             console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}, second Number: ${secondNum}`);
-
-//         } else {
-//             console.log('first number')
-//             currentOperator = e.target.innerText;
-//             myLabel.innerText = '';
-//             console.log(`FirstNumber: ${firstNum}, type: ${typeof firstNum}, Operator: ${currentOperator}`);
-//         }
-//     })
-// })
 
 myOperators.forEach(operator => {
     operator.addEventListener('click', (e) => {
@@ -125,9 +132,9 @@ myOperators.forEach(operator => {
         if(firstNum && secondNum){
             console.log('Two numbers present')
             console.log(`result ${result}`)
-            
+
             calculate();
-            
+
             firstNum = result;
             secondNum = '';
             currentOperator = e.target.innerText;
@@ -177,8 +184,6 @@ function calculate(){
             result = divide(+firstNum, +secondNum);
         break;
     }
-
-
 }
 
 
@@ -201,6 +206,9 @@ function multiply(num1, num2){
 }
 
 function divide(num1, num2){
+    if(num2 == 0)[
+        myLabel.innerText = 'come on man'
+    ]
     let result = num1 / num2;
     console.log(result)
     return result;
