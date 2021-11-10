@@ -213,3 +213,6 @@ function divide(num1, num2){
     console.log(result)
     return result;
 }
+
+
+//result is not correct number after percentage is clicked and trying to add a new number to it
